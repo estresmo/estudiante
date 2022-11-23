@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+            integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+            integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
+            crossorigin="anonymous"></script>
+    <style>
+        .box {
+            margin-top: 120px;
+            background-color: white;
+            width: 550px;
+            height: 400px;
+            margin-right: auto;
+            margin-left: auto;
+            padding-top: 80px;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body style="background-color:#82E0AA ;">
+<nav class="navbar navbar-expand-lg" style="background-color: #A5EEA0;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/static/img/titulo.png" alt="" width="200">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/productos">Productos</a>
+                </li>
+                {% if session['user_id'] %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/cerrarSesion">Cerrar Sesión</a>
+                </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inicioSesion">Inicio de Sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registro">Registro</a>
+                    </li>
+                {% endif %} 
+
+                
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <div class="col-1">
+                <div class="carrito">
+                    <img src="/static/img/cart.png" class="rounded float-end" alt="..." id="img-carrito">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="box">
+    <h3 class="text-center">Registro</h3>
+    <form id="login-form" class="mx-auto text-center row">
+        <div class="col-6">
+            <label for="username">Nombre de Usuario</label>
+            <input class="form-control mb-2" type="text" id="username" name="username">
+        </div>
+        <div class="col-6">
+            <label for="fullname">Nombre Completo</label>
+            <input class="form-control mb-2" type="text" id="fullname" name="fullname">
+        </div>
+        <div class="col-6">
+            <label for="email">Correo</label>
+            <input class="form-control mb-2" type="email" id="email" name="email">
+        </div>
+        <div class="col-6">
+            <label for="password">Contraseña</label>
+            <input class="form-control mb-2" id="password" type="password" name="password">
+        </div>
+        <input class="btn btn-md btn-primary mt-3 mx-auto" style="width: 150px" type="button" value="Registrarse" onclick="registrar()">
+    </form>
+</div>
+<script>
+    function registrar() {
+        let form = document.getElementById("login-form")
+        let data = new FormData(form)
+        fetch("/register", {
+            method: "POST",
+            body: data,
+        })
+            .then(result => result.json())
+            .then(result => {
+                if ('error' in result) {
+                    alert(result['error'])
+                } else {
+                    alert(result['success'])
+                    location = "/inicioSesion"
+                }
+            })
+    }
+
+</script>
+</body>
+</html>

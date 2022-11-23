@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        h1 {
+            color: #1E8449;
+        }
+
+        h4 {
+            color: #1E8449
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Productos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+            integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+            integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
+            crossorigin="anonymous"></script>
+</head>
+<body style="background-color:#82E0AA   ;">
+<nav class="navbar navbar-expand-lg" style="background-color:#A5EEA0;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/static/img/titulo.png" alt="" width="200">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/productos">Productos</a>
+                </li>
+                {% if session['user_id'] %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/cerrarSesion">Cerrar Sesión</a>
+                </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inicioSesion">Inicio de Sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registro">Registro</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+
+
+            </form>
+            <div class="col-1">
+                <div class="carrito">
+                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#cart">
+                        <img src="/static/img/cart.png" class="rounded float-end" alt="..." id="img-carrito">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<!-- CAROUSEL-->
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/static/img/car22.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>ESPECIALES DEL DIA</h5>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+<!-- MENU-->
+<img src="/static/img/menu.png" class="rounded mx-auto d-block" alt="100px">
+
+
+<div class="album py-1 ">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for product in products %}
+                <div class="col-lg-3">
+                    <h4 class=" text-center pb-3 pt-3" style="min-height: 90px">{{ product.name }} </h4>
+                    <div class="card shadow-sm" style="background-color: #ABEBC6;">
+                        <img class="img-fluid" src="{{ product.image }}" alt="imagen producto"
+                             style="width: 300px;height:300px">
+                        <div class="card-body">
+                            <p class="card-text" style="min-height: 50px">{{ product.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button data-price="{{ product.price }}" data-name="{{ product.name }}" type="button" class="btn btn-sm btn-outline-secondary add-to-cart"
+                                     data-bs-toggle="modal" data-bs-target="#cart" data-productId="{{ product.id }}"
+                                    >Agregar al carrito
+                                    </button>
+                                </div>
+                                <small class="text-muted">{{ product.price }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="cart" tabindex="-1"  aria-labelledby="modalCart" aria-hidden="true">
+  <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Carrito</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+      </div>
+      <div class="modal-body">
+          <h3 class="text-center">Productos</h3>
+        <table class="show-cart table">
+
+        </table>
+        <div>Total: $<span class="total-cart"></span></div>
+          {% if not session['user_id'] %}
+              <div style="border-top: solid 1px grey;margin-top: 20px">
+                  <h3 class="text-center">¡Necesita iniciar sesión!</h3>
+                  <p><a href="/inicioSesion">Inicie sesión</a> o <a href="/registro">Regístrese para continuar</a></p>
+              </div>
+          {% endif %}
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          {% if session['user_id'] %}
+              <button type="button" class="btn btn-primary" onclick="comprar()">Ordenar</button>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="py-3 my-4" style="background-color:#ABEBC6;">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Inicio</a></li>
+        <li class="nav-item"><a href="/productos" class="nav-link px-2 text-muted">Productos</a></li>
+        <li class="nav-item"><a href="/inicioSesion" class="nav-link px-2 text-muted">Admin</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2022 Company, Inc</p>
+</footer>
+<script
+        src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+        crossorigin="anonymous"></script>
+<script src="/static/js/app.js"></script>
+<script>
+    function comprar(){
+        let data = new FormData();
+        const cart = sessionStorage.getItem('shoppingCart');
+        data.append("products", cart)
+        fetch("/addOrder",{method:"POST",body:data})
+            .then(result => result.json())
+            .then(result =>{
+                if("success" in result){
+                    alert(result["success"])
+                    sessionStorage.removeItem('shoppingCart');
+                    location.reload();
+                }
+
+            })
+
+    }
+</script>
+</body>
+</html>
